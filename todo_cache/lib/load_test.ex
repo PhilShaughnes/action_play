@@ -13,7 +13,7 @@ defmodule LoadTest do
   @interval_size 100_000
 
   def run do
-    {:ok, cache} = Todo.Cache.start()
+    {:ok, cache} = Todo.Cache.start_link(1)
 
     interval_count = round(@total_processes / @interval_size)
     Enum.each(0..(interval_count - 1), &run_interval(cache, make_interval(&1)))
