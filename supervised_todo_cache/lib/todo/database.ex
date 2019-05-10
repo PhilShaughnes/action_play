@@ -4,7 +4,7 @@ defmodule Todo.Database do
   @db_folder "./persist"
   @workers 3
 
-  def start_link do
+  def start_link(_) do
     IO.puts("starting database pool")
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
