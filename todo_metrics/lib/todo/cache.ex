@@ -3,7 +3,7 @@ defmodule Todo.Cache do
   Make lots of todo lists
   """
 
-  def start_link(_) do
+  def start_link() do
     IO.puts("starting to-do cache.")
 
     DynamicSupervisor.start_link(
