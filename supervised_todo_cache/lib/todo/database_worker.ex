@@ -33,9 +33,8 @@ defmodule Todo.DatabaseWorker do
     {:noreply, db_folder}
   end
 
-  def handle_call({:get, key}, caller, db_folder) do
-    GenServer.reply(caller, file_read(key, db_folder))
-    {:noreply, db_folder}
+  def handle_call({:get, key}, _from, db_folder) do
+    {:reply, file_read(key, db_folder), db_folder}
   end
 
   defp file_persist(key, db_folder, data) do
@@ -47,7 +46,7 @@ defmodule Todo.DatabaseWorker do
   defp file_read(key, db_folder) do
     case File.read(file_name(key, db_folder)) do
       {:ok, contents} -> :erlang.binary_to_term(contents)
-      _ -> nil
+      {:error, :enoent} -> nil
     end
   end
 
