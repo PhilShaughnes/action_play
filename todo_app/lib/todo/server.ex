@@ -4,7 +4,7 @@ defmodule Todo.Server do
   """
   use GenServer, restart: :temporary
 
-  @expiry_idle_timeout :timer.seconds(10)
+  @expiry_idle_timeout :timer.seconds(30)
 
   def start_link(name) do
     IO.puts("starting the todo list server")
