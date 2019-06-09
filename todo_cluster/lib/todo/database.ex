@@ -4,7 +4,13 @@ defmodule Todo.Database do
   @pool_size 3
 
   def child_spec(_) do
-    File.mkdir_p!(@db_folder)
+    # Node name is used to determine the database folder. This allows us to
+    # start multiple nodes from the same folders, and data will not clash.
+    [name_prefix, _] = "#{node()}" |> String.split("@")
+    # db_folder = "#{Keyword.fetch!(db_settings, :folder)}/#{name_prefix}/"
+    db_folder = "#{@db_folder}/#{name_prefix}/"
+
+    File.mkdir_p!(db_folder)
 
     :poolboy.child_spec(
       __MODULE__,
