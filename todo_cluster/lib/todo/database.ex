@@ -23,6 +23,16 @@ defmodule Todo.Database do
   # end
 
   def store(key, data) do
+    {_results, bad_nodes} =
+      :rpc.multicall(
+        __MODULE__,
+        :store_local,
+        [key, data],
+        :timer.seconds(5)
+      )
+  end
+
+  def store_local(key, data) do
     # key
     # |> choose_worker()
     # |> Todo.DatabaseWorker.store(key, data)

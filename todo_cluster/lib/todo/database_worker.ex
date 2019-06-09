@@ -11,7 +11,7 @@ defmodule Todo.DatabaseWorker do
   end
 
   def store(pid, key, data) do
-    GenServer.cast(pid, {:store, key, data})
+    GenServer.call(pid, {:store, key, data})
   end
 
   def get(pid, key) do
@@ -22,9 +22,9 @@ defmodule Todo.DatabaseWorker do
     {:ok, db_folder}
   end
 
-  def handle_cast({:store, key, data}, db_folder) do
+  def handle_call({:store, key, data}, _from, db_folder) do
     file_persist(key, db_folder, data)
-    {:noreply, db_folder}
+    {:reply, :ok, db_folder}
   end
 
   def handle_call({:get, key}, _from, db_folder) do
