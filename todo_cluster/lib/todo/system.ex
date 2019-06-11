@@ -3,7 +3,8 @@ defmodule Todo.System do
     Supervisor.start_link(
       [
         Todo.Database,
-        Todo.Cache
+        Todo.Cache,
+        Todo.Web
       ],
       strategy: :one_for_one
     )
