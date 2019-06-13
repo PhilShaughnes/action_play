@@ -1,7 +1,7 @@
 defmodule Todo.Database do
 
-  @db_folder "./persist"
-  @pool_size 3
+  @db_folder Application.fetch_env!(:todo, :db_folder)
+  @pool_size Application.fetch_env!(:todo, :db_pool_size)
 
   def child_spec(_) do
     # Node name is used to determine the database folder. This allows us to
@@ -19,7 +19,7 @@ defmodule Todo.Database do
         worker_module: Todo.DatabaseWorker,
         size: @pool_size
       ],
-      [@db_folder]
+      [db_folder]
     )
   end
 
@@ -36,6 +36,9 @@ defmodule Todo.Database do
         [key, data],
         :timer.seconds(5)
       )
+
+    Enum.each(bad_nodes, &IO.puts("Store failed on node #{&1}"))
+    :ok
   end
 
   def store_local(key, data) do

@@ -4,6 +4,8 @@ defmodule Todo.Web do
   plug :match
   plug :dispatch
 
+  @port Application.fetch_env!(:todo, :http_port)
+
   post "/add_entry" do
     conn = Plug.Conn.fetch_query_params(conn)
     list_name = Map.fetch!(conn.params, "list")
@@ -44,7 +46,7 @@ defmodule Todo.Web do
   def child_spec(_args) do
     Plug.Adapters.Cowboy.child_spec(
       scheme: :http,
-      options: [port: 5454],
+      options: [port: Application.fetch_env!(:todo, :http_port)],
       plug: __MODULE__
     )
   end
