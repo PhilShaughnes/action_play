@@ -39,8 +39,8 @@ end
 
 release :todo do
   set version: current_version(:todo)
-  # set applications: [
-  #   :runtime_tools
-  # ]
+  set applications: [
+    :runtime_tools
+  ]
 end
 
